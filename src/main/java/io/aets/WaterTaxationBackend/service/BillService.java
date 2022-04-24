@@ -43,4 +43,11 @@ public class BillService {
     public void deleteBill(Long id){
         billRepository.deleteBillById(id);
     }
+
+    public void deleteBySubscriberId(Long subscriberId){
+        List<Bill> bills = billRepository.findBySubscriberId(subscriberId);
+        for (int i = 0; i < bills.size(); i++) {
+            billRepository.deleteBillById(bills.get(i).getId());
+        }
+    }
 }

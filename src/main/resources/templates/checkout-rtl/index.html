@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.88.1">
-    <title>مثال إتمام الشراء · Bootstrap v5.1</title>
+    <title>فاتورة جديدة</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/checkout-rtl/">
 
@@ -69,24 +69,25 @@
   <main>
     <div class="py-5 text-center">
       <img class="d-block mx-auto mb-4" src="../../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
-      <h2>نموذج إتمام الشراء</h2>
-      <p class="lead">فيما يلي مثال على نموذج تم إنشاؤه بالكامل باستخدام عناصر تحكم النموذج في Bootstrap. لكل مجموعة نماذج مطلوبة حالة تحقق يمكن تشغيلها بمحاولة إرسال النموذج دون استكماله.</p>
+      <h2>فاتورة جديدة</h2>
+      <p class="lead">لإنشاء فاتورة جديدة إملأ الإستمارة</p>
     </div>
 
     <div class="row g-3">
       <div class="col-md-5 col-lg-4 order-md-last">
         <h4 class="d-flex justify-content-between align-items-center mb-3">
           <span class="text-muted">الفواتير السابقة</span>
-          <span class="badge bg-secondary rounded-pill">3</span>
+          <span class="badge bg-secondary rounded-pill" th:text="${#lists.size(bills)}">3</span>
         </h4>
         <ul class="list-group mb-3">
-          <!-- <li class="list-group-item d-flex justify-content-between lh-sm">
+          <li class="list-group-item d-flex justify-content-between lh-sm" th:each="bill : ${bills}">
             <div>
-              <h6 class="my-0">اسم المنتج</h6>
-              <small class="text-muted">وصف مختصر</small>
+              <h6 class="my-0" th:text="${#dates.format(bill.date, 'dd-MM-yyyy')}"></h6>
+              <small class="text-muted" th:text="${#dates.format(bill.old_date, 'dd-MM-yyyy')}">وصف مختصر</small>
             </div>
-            <span class="text-muted">$12</span>
+            <span class="text-muted" th:text="${bill.total} + ' DHs'">$12</span>
           </li>
+          <!--
           <li class="list-group-item d-flex justify-content-between lh-sm">
             <div>
               <h6 class="my-0">المنتج الثاني</h6>
@@ -122,11 +123,27 @@
         </form> -->
       </div>
       <div class="col-md-7 col-lg-8">
-        <h4 class="mb-3">عنوان الفوترة</h4>
+        <h4 class="mb-3">معلومات الفوترة</h4>
         <form class="needs-validation" name="facture" th:action="@{/bill/save}" th:object="${bill}" method="post" novalidate>
           <hr class="my-4">
           <div class="row g-3">
             <h3 th:text="${subscriber.first_name + ' ' + subscriber.last_name}"></h3>
+            <div class="row">
+              <div class="col">
+                <p>رقم العداد</p>
+              </div>
+              <div class="col">
+                <p th:text="': ' + ${subscriber.counterNumber}"></p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <p>آخر تحديث</p>
+              </div>
+              <div class="col">
+                <p th:text="': ' + ${#dates.format(subscriber.last_checked, 'dd-MM-yyyy')}"></p>
+              </div>
+            </div>
             <!-- <input type="date" id="last_date" th:value="${subscriber.last_checked}" th:field="*{old_date}" placeholder="tgt"> -->
             <input type="hidden" id="sub_id" th:value="${subscriber.id}" th:field="*{subscriberId}" placeholder="">
             <input type="hidden" id="date" th:value="${subscriber.last_checked}" th:field="*{old_date}" placeholder="">
@@ -177,55 +194,48 @@
             </div>
 
             <div class="col-sm-6">
-              <label for="old_value" class="form-label">القديم</label>
-              <input type="number" class="form-control" name="old_value" id="old_value" th:field="*{old_value}" th:value="${subscriber.last_value}">
+              <label for="old_value" class="form-label">القديم (طن)</label>
+              <input type="number" class="form-control" name="old_value" id="old_value" th:field="*{old_value}" th:value="${subscriber.last_value}" readonly>
             </div>
 
             <div class="col-sm-6">
-              <label for="new" class="form-label">الجديد</label>
+              <label for="new" class="form-label">الجديد (طن)</label>
               <input type="number" class="form-control" onChange="updatesum()" id="new" name="new_value" placeholder="" th:field="*{new_value}">
             </div>
+            <div class="col-sm-6">
+              <label for="d" class="form-label">الفرق (طن)</label>
+              <input type="number" class="form-control" id="d" name="difference" placeholder="" th:field="*{difference}" readonly>
+            </div>
 
+            <div class="col-sm-6">
+              <label for="tier1" class="form-label">الشطر 1 (درهم)</label>
+              <input type="number" class="form-control" id="tier1" name="tier1" placeholder="" th:field="*{first_tier}" readonly>
+            </div>
+
+            <div class="col-sm-6">
+              <label for="tier2" class="form-label">الشطر 2 (درهم)</label>
+              <input type="number" class="form-control" id="tier2" name="tier2" placeholder="" th:field="*{second_tier}" readonly>
+            </div>
+
+            <div class="col-sm-6">
+              <label for="tier3" class="form-label">الشطر 3 (درهم)</label>
+              <input type="number" class="form-control" id="tier3" name="tier3" placeholder="" th:field="*{third_tier}" readonly>
+            </div>
+
+            <div class="col-sm-6">
+              <label for="z" class="form-label">واجب الصيانة (درهم)</label>
+              <input type="number" class="form-control" id="z" placeholder="10" readonly>
+            </div>
+
+            <div class="col-sm-6">
+              <label for="a" class="form-label">واجب المسجد (درهم)</label>
+              <input type="number" class="form-control" id="a" placeholder="10" readonly>
+            </div>
             <div class="col-12">
-              <label for="d" class="form-label">الفرق</label>
-              <input type="number" class="form-control" id="d" name="difference" placeholder="" th:field="*{difference}">
-            </div>
-
-            <div class="col-sm-6">
-              <label for="tier1" class="form-label">الشطر 1</label>
-              <input type="number" class="form-control" id="tier1" name="tier1" placeholder="" th:field="*{first_tier}">
-            </div>
-
-            <div class="col-sm-6">
-              <label for="tier2" class="form-label">الشطر 2</label>
-              <input type="number" class="form-control" id="tier2" name="tier2" placeholder="" th:field="*{second_tier}">
-            </div>
-
-            <div class="col-sm-6">
-              <label for="tier3" class="form-label">الشطر 3</label>
-              <input type="number" class="form-control" id="tier3" name="tier3" placeholder="" th:field="*{third_tier}">
-            </div>
-
-            <div class="col-sm-6">
-              <label for="e" class="form-label">الشطر 4</label>
-              <input type="number" class="form-control" id="e" placeholder="" th:field="*{fourth_tier}">
-            </div>
-
-            <div class="col-sm-6">
-              <label for="z" class="form-label">واجب الصيانة</label>
-              <input type="number" class="form-control" id="z" placeholder="10">
-            </div>
-
-            <div class="col-sm-6">
-              <label for="a" class="form-label">واجب المسجد</label>
-              <input type="number" class="form-control" id="a" placeholder="10">
-            </div>
-
-            <div class="col-12">
-              <label for="sum" class="form-label">الواجب الإجمالي</label>
+              <label for="sum" class="form-label">الواجب الإجمالي (درهم)</label>
               <div class="input-group">
                 <span class="input-group-text">DHS</span>
-                <input type="number" class="form-control" id="sum" name="sum" placeholder="" th:field="*{total}">
+                <input type="number" class="form-control" id="sum" name="sum" placeholder="" th:field="*{total}" readonly>
               </div>
             </div>
 
@@ -328,7 +338,18 @@
 
           <hr class="my-4">
           </div>
-          <button class="w-100 btn btn-primary btn-lg" type="submit">الاستمرار بالدفع</button>
+          <div class="row">
+            <div class="col">
+              <a class="w-100 btn btn-warning btn-lg" th:href="@{/subscriber/find/{id}(id=${subscriber.id})}">الغاء</a>
+            </div>
+            <div class="col">
+              <button class="w-100 btn btn-primary btn-lg" id="btn" type="submit">فاتورة جديدة</button>
+              <button class="w-100 btn btn-primary btn-lg spinner-displayer" type="button" disabled style="display: none">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Loading...
+              </button>
+            </div>
+          </div>
         </form>
       </div>
     </div>
@@ -345,7 +366,19 @@
 
 
     <script src="../../assets/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+      function spinner() {
+    const spinnerDisplayer = document.querySelector('.spinner-displayer');
+    const btn = document.getElementById('btn');
 
+    btn.addEventListener('click', () => {
+    spinnerDisplayer.style.display="block";
+    btn.style.display="none";
+  })
+}
+
+spinner();
+    </script>
       <script src="../../checkout/form-validation.js"></script>
   </body>
 </html>

@@ -25,7 +25,6 @@ public class Bill implements Serializable {
     private float first_tier;
     private float second_tier;
     private float third_tier;
-    private float fourth_tier;
     private float total;
     private boolean paid;
 
@@ -40,7 +39,7 @@ public class Bill implements Serializable {
         this.difference = difference;
     }
 
-    public Bill(Date old_date, Date date, Long subscriberId, String bill_serial_number, float old_value, float new_value, float difference, float first_tier, float second_tier, float third_tier, float fourth_tier, float total, boolean paid) {
+    public Bill(Date old_date, Date date, Long subscriberId, String bill_serial_number, float old_value, float new_value, float difference, float first_tier, float second_tier, float third_tier, float total, boolean paid) {
         this.old_date = old_date;
         this.date = date;
         this.subscriberId = subscriberId;
@@ -51,7 +50,6 @@ public class Bill implements Serializable {
         this.first_tier = first_tier;
         this.second_tier = second_tier;
         this.third_tier = third_tier;
-        this.fourth_tier = fourth_tier;
         this.total = total;
         this.paid = paid;
     }
@@ -144,13 +142,6 @@ public class Bill implements Serializable {
         this.third_tier = third_tier;
     }
 
-    public float getFourth_tier() {
-        return fourth_tier;
-    }
-
-    public void setFourth_tier(float fourth_tier) {
-        this.fourth_tier = fourth_tier;
-    }
 
     public float getTotal() {
         return total;
@@ -174,7 +165,6 @@ public class Bill implements Serializable {
                 ", first_tier=" + first_tier +
                 ", second_tier=" + second_tier +
                 ", third_tier=" + third_tier +
-                ", fourth_tier=" + fourth_tier +
                 ", total=" + total +
                 ", paid=" + paid +
                 '}';

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -51,6 +52,13 @@ public class SubscriberController {
         return "dashboard-rtl/index";
     }
 
+    @GetMapping("/view/{id}")
+    public String viewSubscriberById(@PathVariable("id") Long id, Model model){
+        Subscriber subscriber = subscriberService.findSubscriberById(id);
+        model.addAttribute("subscriber", subscriber);
+        return "checkout-rtl/edit_subscriber";
+    }
+
     /*
     @PostMapping("/add")
     public ResponseEntity<Subscriber> addSubscriber(@RequestBody Subscriber subscriber){
@@ -66,10 +74,11 @@ public class SubscriberController {
     }
 
     @PostMapping("/save")
-    public String addSubscriber(@ModelAttribute Subscriber subscriber, Model model){
+    public String addSubscriber(@ModelAttribute Subscriber subscriber, Model model, RedirectAttributes redirectAttributes){
         model.addAttribute("subscriber", subscriber);
         Subscriber newSubscriber = subscriberService.addSubscriber(subscriber);
-        return "redirect:/subscriber/all";
+        redirectAttributes.addAttribute("id", newSubscriber.getId());
+        return "redirect:/subscriber/find/{id}";
     }
 
     @PutMapping("/update")
@@ -78,10 +87,20 @@ public class SubscriberController {
         return new ResponseEntity<>(updatedSubscriber, HttpStatus.OK);
     }
 
+    /*
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteSubscriberById(@PathVariable("id") Long id){
         subscriberService.deleteSubscriber(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+    */
+
+    // @GetMapping("/delete/{id}")
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    public String deleteSubscriberById(@PathVariable("id") Long id){
+        subscriberService.deleteSubscriber(id);
+        billService.deleteBySubscriberId(id);
+        return "redirect:/subscriber/all";
     }
 
 }

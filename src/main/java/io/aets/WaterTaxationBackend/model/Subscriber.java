@@ -14,6 +14,7 @@ public class Subscriber implements Serializable {
     private Long id;
     @Column(nullable = false, updatable = false)
     private String subscriberCode;
+    private int counterNumber;
     private String first_name;
     private String last_name;
     private boolean isMember;
@@ -23,13 +24,22 @@ public class Subscriber implements Serializable {
 
     public Subscriber(){}
 
-    public Subscriber(String subscriberCode, String first_name, String last_name, boolean isMember, Date last_checked, float last_value) {
+    public Subscriber(String subscriberCode, int counterNumber, String first_name, String last_name, boolean isMember, Date last_checked, float last_value) {
         this.subscriberCode = subscriberCode;
+        this.counterNumber = counterNumber;
         this.first_name = first_name;
         this.last_name = last_name;
         this.isMember = isMember;
         this.last_checked = last_checked;
         this.last_value = last_value;
+    }
+
+    public int getCounterNumber() {
+        return counterNumber;
+    }
+
+    public void setCounterNumber(int counterNumber) {
+        this.counterNumber = counterNumber;
     }
 
     public Long getId() {
@@ -93,6 +103,7 @@ public class Subscriber implements Serializable {
         return "Subscriber{" +
                 "id=" + id +
                 ", subscriberCode='" + subscriberCode + '\'' +
+                ", counterNumber=" + counterNumber +
                 ", first_name='" + first_name + '\'' +
                 ", last_name='" + last_name + '\'' +
                 ", isMember=" + isMember +

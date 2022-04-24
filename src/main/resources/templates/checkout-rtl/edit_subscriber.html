@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="ar" dir="rtl" xmlns:th="https://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.88.1">
+    <title th:text="${subscriber.first_name + ' ' + subscriber.last_name + ' | تعديل'}">تعديل العضو</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/checkout-rtl/">
+
+    
+
+    <!-- Bootstrap core CSS -->
+<link href="../../assets/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+
+    
+    <!-- Custom styles for this template -->
+    <link href="../checkout/form-validation.css" rel="stylesheet">
+  </head>
+  <body class="bg-light">
+    
+<div class="container">
+  <main>
+    <div class="py-5 text-center">
+      <img class="d-block mx-auto mb-4" src="../../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+      <h2>تعديل العضو</h2>
+      <!-- <p class="lead">فيما يلي مثال على نموذج تم إنشاؤه بالكامل باستخدام عناصر تحكم النموذج في Bootstrap. لكل مجموعة نماذج مطلوبة حالة تحقق يمكن تشغيلها بمحاولة إرسال النموذج دون استكماله.</p> -->
+    </div>
+
+    <div class="row g-3">
+      <div class="col-md-5 col-lg-4 order-md-last">
+        <!--
+        <h4 class="d-flex justify-content-between align-items-center mb-3">
+          <span class="text-muted">الفواتير السابقة</span>
+          <span class="badge bg-secondary rounded-pill">3</span>
+        </h4>
+        -->
+        <div class="list-group">
+          <a class="list-group-item list-group-item-action active" aria-current="true" disabled>
+            لوحة التحكم
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">الرئيسية</a>
+          <a th:href="@{/subscriber/all}" class="list-group-item list-group-item-action">لائحة الأعضاء</a>
+          <!--
+          <a href="#" class="list-group-item list-group-item-action">A fourth link item</a>
+          <a class="list-group-item list-group-item-action disabled">A disabled link item</a>
+          -->
+        </div>
+        <ul class="list-group mb-3">
+          <!-- <li class="list-group-item d-flex justify-content-between lh-sm">
+            <div>
+              <h6 class="my-0">اسم المنتج</h6>
+              <small class="text-muted">وصف مختصر</small>
+            </div>
+            <span class="text-muted">$12</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between lh-sm">
+            <div>
+              <h6 class="my-0">المنتج الثاني</h6>
+              <small class="text-muted">وصف مختصر</small>
+            </div>
+            <span class="text-muted">$8</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between lh-sm">
+            <div>
+              <h6 class="my-0">البند الثالث</h6>
+              <small class="text-muted">وصف مختصر</small>
+            </div>
+            <span class="text-muted">$5</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between bg-light">
+            <div class="text-success">
+              <h6 class="my-0">رمز ترويجي</h6>
+              <small>EXAMPLECODE</small>
+            </div>
+            <span class="text-success">-$5</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            <span>مجموع (USD)</span>
+            <strong>$20</strong>
+          </li> -->
+        </ul>
+
+        <!-- <form class="card p-2">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="رمز ترويجي">
+            <button type="submit" class="btn btn-secondary">تحقق</button>
+          </div>
+        </form> -->
+      </div>
+      <div class="col-md-7 col-lg-8">
+        <h4 class="mb-3">الاستمارة</h4>
+        <form class="needs-validation" action="#" th:action="@{/subscriber/save}" th:object="${subscriber}" method="post" novalidate>
+          <hr class="my-4">
+          <div class="row g-3">
+
+            <input type="hidden" th:field="*{id}" />
+
+            <!-- <div class="col-12">
+              <label for="email" class="form-label">البريد الإلكتروني <span class="text-muted">(اختياري)</span></label>
+              <input type="email" class="form-control" id="email" placeholder="you@example.com">
+              <div class="invalid-feedback">
+                يرجى إدخال عنوان بريد إلكتروني صحيح لتصلكم تحديثات الشحن.
+              </div>
+            </div> -->
+
+            <div class="col-sm-6">
+              <label for="address" class="form-label">الاسم الشخصي</label>
+              <input type="text" class="form-control" th:field="*{first_name}" id="address" placeholder="الاسم الشخصي" required>
+              <div class="invalid-feedback">
+                يرجى إدخال عنوان الشحن الخاص بك.
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <label for="last_name" class="form-label">الاسم العائلي</label>
+              <input type="text" class="form-control" id="last_name" th:field="*{last_name}" placeholder="الاسم العائلي" required>
+              <div class="invalid-feedback">
+                يرجى إدخال عنوان الشحن الخاص بك.
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <label for="nb" class="form-label">رقم العداد</label>
+              <input type="number" class="form-control" th:field="*{counterNumber}" id="nb" placeholder="1" required>
+            </div>
+            <div class="col-sm-6">
+              <label for="address2" class="form-label">آخر تحديث</label>
+              <input type="date" class="form-control" th:field="*{last_checked}" id="date" placeholder="">
+            </div>
+
+            <div class="col-sm-6">
+              <label for="address2" class="form-label">آخر قيمة (طن)</label>
+              <input type="number" class="form-control" id="address2" th:field="*{last_value}" placeholder="">
+            </div>
+            <div class="col-sm-6">
+              <label for="is" class="form-label">عضوية</label>
+              <input class="form-control"  list="datalistOptions" id="is" placeholder="عضوية مفعلة">
+              <datalist id="datalistOptions">
+                <option value="Yes" th:value="1">عضوية مفعلة</option>
+                <option value="No" th:value="0">عضوية غير مفعلة</option>
+              </datalist>
+            </div>
+            <hr class="my-4">
+          </div>
+          <div class="row">
+            <div class="col">
+              <a class="w-100 btn btn-warning btn-lg" th:href="@{/subscriber/all}">الغاء</a>
+            </div>
+            <div class="col">
+              <button class="w-100 btn btn-primary btn-lg" id="btn" type="submit">تعديل</button>
+              <button class="w-100 btn btn-primary btn-lg spinner-displayer" type="button" disabled style="display: none">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                جاري التعديل...
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+  <footer class="my-5 pt-5 text-muted text-center text-small">
+    <p class="mb-1">&copy; 2022 جمعية السراغنة للأعمال الاجتماعية</p>
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="#">سياسة الخصوصية</a></li>
+      <li class="list-inline-item"><a href="#">اتفاقية الاستخدام</a></li>
+      <li class="list-inline-item"><a href="#">الدعم الفني</a></li>
+    </ul>
+  </footer>
+</div>
+<script>
+      function spinner() {
+    const spinnerDisplayer = document.querySelector('.spinner-displayer');
+    const btn = document.getElementById('btn');
+
+    btn.addEventListener('click', () => {
+    spinnerDisplayer.style.display="block";
+    btn.style.display="none";
+  })
+}
+
+spinner();
+    </script>
+
+    <script src="../../assets/dist/js/bootstrap.bundle.min.js"></script>
+
+      <script src="../../checkout/form-validation.js"></script>
+  </body>
+</html>
