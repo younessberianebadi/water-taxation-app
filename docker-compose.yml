@@ -1,0 +1,39 @@
+# Docker compose file for this application
+# Author : Youness Beriane Badi
+
+version: '3'
+
+# Containers
+
+services:
+
+  myapp-mysql:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=PasswordDatabse@2022
+      - MYSQL_DATABASE=watertaxation 
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  myapp-main:
+    image: ...
+    restart: on-failure
+    depends_on:
+      - myapp-mysql
+    ports:
+      - 8085:8080
+    environment:
+      - DB_HOST=mysqldb
+
+# Networks
+
+networks:
+  employee-mysql:
+    driver: bridge
+
+# Volumes
+
+volumes:
+  mysql-data:
