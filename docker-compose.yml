@@ -18,14 +18,14 @@ services:
       - mysql-data:/var/lib/mysql
 
   myapp-main:
-    image: ...
+    image: younessberianebadi/water-taxation:1.0
     restart: on-failure
     depends_on:
       - myapp-mysql
     ports:
       - 8085:8080
     environment:
-      - DB_HOST=mysqldb
+      - DB_HOST=myapp-mysql
 
 # Networks
 

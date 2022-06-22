@@ -27,12 +27,13 @@ spec:
     spec:
       containers:
         - name: water-app 
-          image: ... # Image that will be used to containers in the cluster
+          image: younessberianebadi/water-taxation:1.0 # Image that will be used to containers in the cluster
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080 # The port that the container is running on in the cluster
           env:
-            valueFrom:
-            configMapKeyRef:
-              name: water-configmap
-              key: mysql_service
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: water-configmap
+                  key: mysql_service

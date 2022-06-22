@@ -1,5 +1,5 @@
 # Water taxation application
-## Spring Boot + MySQL + Docker
+## Spring Boot + MySQL + Docker + Kubernetes
 
 Run this command to create jar artificats
 
@@ -85,4 +85,29 @@ By default, traffic from containers connected to the default bridge network is n
 ```sh
 sudo sysctl net.ipv4.conf.all.forwarding=1
 sudo iptables -P FORWARD ACCEPT
+```
+### docker compose
+
+Run the following command
+
+```sh
+$ docker compose up -d
+[+] Running 19/19
+ ⠿ myapp-mysql 
+ ⠿ myapp-main 
+[+] Running 4/4
+ ⠿ Network water_default          Created                                                                                                          0.4s
+ ⠿ Volume "water_mysql-data"      Created                                                                                                          0.0s
+ ⠿ Container water-myapp-mysql-1  Created                                                                                                          0.3s
+ ⠿ Container water-myapp-main-1   Created                                                                                                          0.1s
+```
+
+Login using the following url: http://<ip/hostname/localhost>:8085/
+
+```sh
+$ docker ps
+CONTAINER ID   IMAGE                                   COMMAND                  CREATED          STATUS          PORTS                                                  NAMES
+87190bb110e1   younessberianebadi/water-taxation:1.0   "java -jar /app.jar"     10 minutes ago   Up 10 minutes   0.0.0.0:8085->8080/tcp, :::8085->8080/tcp              water-myapp-main-1
+77d96a5438ea   mysql                                   "docker-entrypoint.s…"   10 minutes ago   Up 10 minutes   0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp   water-myapp-mysql-1
+
 ```
