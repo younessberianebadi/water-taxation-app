@@ -15,6 +15,9 @@ apiVersion: apps/v1
 kind: Deployment # Kubernetes resource kind we are creating
 metadata:
   name: water-app
+  annotations:
+    fluxcd.io/tag.water-app: semver:~1
+    fluxcd.io/automated: 'true'
 spec:
   selector:
     matchLabels:
